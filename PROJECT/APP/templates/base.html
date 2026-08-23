@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Tech Store</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'index' %}"><span class="navbar-brand fw-bold">Web Tech</span><span class="navbar-brand bg-body-secondary border border-dark rounded py-2 px-2">Store</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_dashboard' %}">User Dashboard</a>
+        </li>
+        {% if user.is_staff %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'product_create' %}">Add_Products</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link bg-body-secondary py-2 px-2 border border-dark rounded" href="{% url 'logout' %}">Logout</a>
+        </li>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+       {% else %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Join Us
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+            <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Support</a></li>
+          </ul>
+        </li>
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+    </header>
+    <main>
+      <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </main>
+    <footer class="bg-light text-center text-lg-start mt-4">
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2026 Web Tech Store. All rights reserved.
+  </div>
+</footer>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

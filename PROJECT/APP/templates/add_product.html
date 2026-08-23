@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4 text-center">
+     {% if product %}
+        <h1 class="text-center mb-4">Update Product</h1>
+        <p class="text-center">This is the page to update the product "{{ product.name }}".</p>      
+    {% else %}
+        <h1 class="text-center mb-4">Add Product</h1>
+        <p class="text-center">This is the page to add a new product to the store.</p>
+    {% endif %}
+    {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            Please correct the errors below.
+        </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if product %}
+            <button type="submit" class="btn btn-primary">Update Product</button>
+        {% else %}
+            <button type="submit" class="btn btn-primary">Add Product</button>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4 text-center">
+    <h1 class="display-4">About Us</h1>
+    {% if user.is_authenticated %}
+        <p>Welcome back, {{ user.username }}!</p>
+    {% else %}
+        <p>Welcome to our web tech store! We are dedicated to providing the best technology products and services.</p>
+    {% endif %}
+</div>
+{% endblock %}

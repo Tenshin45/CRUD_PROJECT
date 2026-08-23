@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4 text-center">
+    <h1 class="display-4">Login</h1>
+    <p class="text-center">Sign in to access your account and explore exclusive features.</p>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    <a href="{% url 'register' %}" class="btn btn-link mt-3">Don't have an account? Register here</a>
+</div>
+{% endblock %}
