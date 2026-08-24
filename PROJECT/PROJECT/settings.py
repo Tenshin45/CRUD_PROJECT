@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost"
     "127.0.0.1"
-    "https://crud-project-hfzd.onrender.com"
+    "crud-project-hfzd.onrender.com"
 ]
 
 
