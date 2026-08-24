@@ -26,9 +26,9 @@ SECRET_KEY = 'django-insecure-#xfho#z#@0droipm2r9k4@m#x9nz(z%s1hji$72mw7x_klj8fn
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "localhost"
-    "127.0.0.1"
-    "crud-project-hfzd.onrender.com"
+    "localhost",
+    "127.0.0.1",
+    "crud-project-hfzd.onrender.com",
 ]
 
 
