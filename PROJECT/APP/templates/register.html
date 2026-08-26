@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-4 text-center">
     <h1 class="display-4 text-center">Create Account</h1>
     <p class="text-center">Create an account to access exclusive features and personalized recommendations.</p>
     {% if form.errors %}
@@ -9,11 +9,17 @@
             Please correct the errors below.
         </div>
     {% endif %}
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="text-center btn btn-primary">Register</button>
-    </form>
-    <a class="text-center" href="{% url 'login' %}" class="btn btn-link mt-3">Already have an account? Login here</a>
+    <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card p-4 shadow">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        <p>Already have an account?<a class="text-center" href="{% url 'login' %}" class="btn btn-link mt-3"> Login here</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
 </div>
 {% endblock %}
