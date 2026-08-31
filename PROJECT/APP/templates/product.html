@@ -27,7 +27,7 @@
         <th>{{ product.id }}</th>
         <td>{{ product.name }}</td>
         <td>{{ product.description|truncatewords:20 }}</td>
-        <td>${{ product.price }}</td>
+        <td>Ksh{{ product.price }}</td>
         <td>
             {% if product.image %}
             <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-thumbnail" style="max-width: 100px;">
@@ -36,7 +36,7 @@
             {% endif %}
         </td>
         <td>
-            <a href="{% url 'product' product.id %}" class="btn btn-primary btn-sm">View</a>
+            <a href="{% url 'product' product.id %}" class="btn btn-primary mt-2">View</a>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#UpdateProductModal{{ product.id }}">
               Update
@@ -44,6 +44,7 @@
             <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#productModal{{ product.id }}">
               Delete
             </button>
+            <a href="{% url 'pay' %}" class="btn btn-success mt-2">Buy</a>
         </td>
     </tr>
     {% endfor %}

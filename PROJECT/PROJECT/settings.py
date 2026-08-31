@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'APP',
     'cloudinary',
     'cloudinary_storage',
+    'django_daraja',
 ]
 
 MIDDLEWARE = [
@@ -82,8 +83,12 @@ WSGI_APPLICATION = 'PROJECT.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME':'Web Tech',
+        'USER':'root',
+        'PASSWORD':'Ema655ma',
+        'HOST':'127.0.0.1',
+        'PORT':'3307'
     }
 }
 
@@ -149,3 +154,9 @@ STORAGES={
     }
     
 }
+MPESA_CONSUMER_KEY=config("MPESA_CONSUMER_KEY")
+MPESA_CONSUMER_SECRET=config("MPESA_CONSUMER_SECRET")
+MPESA_PASSKEY=config("MPESA_PASSKEY")
+MPESA_ENVIRONMENT=config("MPESA_ENVIRONMENT")
+MPESA_EXPRESS_SHORTCODE=config("MPESA_EXPRESS_SHORTCODE")
+MPESA_CALLBACK_URL=config("MPESA_CALLBACK_URL")

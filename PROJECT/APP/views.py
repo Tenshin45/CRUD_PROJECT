@@ -5,7 +5,10 @@ from .forms import PasswordChangeForm, ProductForm, UserRegistrationForm, LoginF
 from django.contrib.auth.forms import  AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
-
+from django_daraja.mpesa.core import MpesaClient
+from django.http import HttpResponse,JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Payment
 # Create your views here.
 def is_admin(user):
     return user.is_staff
@@ -106,3 +109,31 @@ def product_delete(request, product_id):
 def user_dashboard(request):
     products = Product.objects.all()
     return render(request, 'user_dashboard.html', {'products': products})
+def make_payement(request, product_id=None):
+   if product_id is not None:
+           return HttpResponse("Product not specified", status=400)
+           product = get_object_or_404(Product, id=product_id)
+   else:
+           product = Product.objects.first()  # Get the first product for demonstration purposes
+   if request.method=='POST':
+        Phone_number=request.POST['number']
+        if not Phone_number:
+            return HttpResponse("Phone number is required", status=400)
+        Amount = product.price
+        account_reference="My APP"
+        transaction_desc=f"Payement for {product.name}"
+        callback_urls="https://crud-project-hfzd.onrender.com/callback/"
+        cl=MpesaClient()
+        #save payment details in db
+        Payment.objects.create(Phone_Number=Phone_number,Amount=Amount,Status="Pending", Merchart_id=response.Merchart_request_id)
+        response=cl.stk_push(Phone_number,Amount,account_reference,transaction_desc,callback_urls)
+        print(response)
+        return HttpResponse('payment initiated')   
+   return render(request, 'pay.html',  {'product': product})
+@csrf_exempt
+def callback(request):
+    if request.method=='POST':
+        data=request.body
+        print("callback data", data)
+        return JsonResponse({'status':'success'})
+    return JsonResponse({'status':'failure'})
