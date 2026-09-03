@@ -44,7 +44,7 @@
             <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#productModal{{ product.id }}">
               Delete
             </button>
-            <a href="{% url 'pay' %}" class="btn btn-success mt-2">Buy</a>
+            <a href="{% url 'pay' product.id %}" class="btn btn-success mt-2">Buy</a>
         </td>
     </tr>
     {% endfor %}

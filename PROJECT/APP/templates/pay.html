@@ -1,27 +1,74 @@
 {% extends 'base.html' %}
-{% block title %}Home{% endblock %}
+
+{% block title %}Payment{% endblock %}
+
 {% block content %}
+
 <div class="container">
-    {% for product in products %}
-    <h1 class="mb-4 text-center">Pay with Mpesa</h1>
-    <p class="text-center"></p>
+
+    <h1 class="mb-4 text-center">Pay with M-Pesa</h1>
+
+    <p class="text-center">
+        {{ product.name }}
+    </p>
+
     <div class="row justify-content-center">
+
         <div class="col-md-6">
+
             <div class="card p-4 shadow">
-                 <form method="POST">
+
+                <form method="POST">
+
                     {% csrf_token %}
+
                     <div class="mb-3">
-                      <label for="number" class="form-label">Phone Number :</label>
-                      <input type="number" id="number" name="number" required class="form-control"></input>
+                        <label for="number" class="form-label">
+                            Phone Number:
+                        </label>
+
+                        <input
+                            type="text"
+                            id="number"
+                            name="number"
+                            required
+                            class="form-control"
+                            placeholder="2547XXXXXXXX"
+                        >
                     </div>
+
                     <div class="mb-3">
-                      <label for="amount" class="form-label">Amount :</label>
-                      <input type="number" id="amount" name="amount" required class="form-control" value="{{ product.price }}" readonly></input>
+
+                        <label for="amount" class="form-label">
+                            Amount:
+                        </label>
+
+                        <input
+                            type="number"
+                            id="amount"
+                            name="amount"
+                            value="{{ product.price }}"
+                            class="form-control"
+                            readonly
+                        >
+
                     </div>
-                    <button type="submit" class="btn btn-success btn-block w-100">Make Payement</button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success btn-block w-100">
+                        Make Payment
+                    </button>
+
                 </form>
+
+            </div>
+
         </div>
+
     </div>
-    {% endfor %}
+    
+
 </div>
+
 {% endblock %}

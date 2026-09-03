@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
+from decimal import Decimal, ROUND_HALF_UP
 from .models import Product
 from .forms import PasswordChangeForm, ProductForm, UserRegistrationForm, LoginForm
 from django.contrib.auth.forms import  AuthenticationForm
@@ -76,12 +76,14 @@ def password_change(request):
         form = PasswordChangeForm()
     return render(request, 'password_change.html', {'form': form})
 @login_required
-def product_detail(request, product_id=None):
-    if product_id is not None:
-        product = get_object_or_404(Product, id=product_id)
-    else:
-        product = Product.objects.first()  # Get the first product for demonstration purposes
-    return render(request, 'view_product.html', {'product': product})
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    products = Product.objects.all()
+
+    return render(request, 'view_product.html', {
+        'product': product,
+        'products': products
+    })
 @login_required
 @user_passes_test(is_admin)
 def product_update(request, product_id=None):
@@ -109,31 +111,61 @@ def product_delete(request, product_id):
 def user_dashboard(request):
     products = Product.objects.all()
     return render(request, 'user_dashboard.html', {'products': products})
-def make_payement(request, product_id=None):
-   if product_id is not None:
-           return HttpResponse("Product not specified", status=400)
-           product = get_object_or_404(Product, id=product_id)
-   else:
-           product = Product.objects.first()  # Get the first product for demonstration purposes
-   if request.method=='POST':
-        Phone_number=request.POST['number']
+@login_required
+def make_payment(request, product_id=None):
+
+    if product_id is not None:
+        product = get_object_or_404(Product, id=product_id)
+    else:
+        product = Product.objects.first()
+
+    if request.method == 'POST':
+
+        Phone_number = request.POST['number']
+
         if not Phone_number:
             return HttpResponse("Phone number is required", status=400)
-        Amount = product.price
-        account_reference="My APP"
-        transaction_desc=f"Payement for {product.name}"
-        callback_urls="https://crud-project-hfzd.onrender.com/callback/"
-        cl=MpesaClient()
-        #save payment details in db
-        Payment.objects.create(Phone_Number=Phone_number,Amount=Amount,Status="Pending", Merchart_id=response.Merchart_request_id)
-        response=cl.stk_push(Phone_number,Amount,account_reference,transaction_desc,callback_urls)
-        print(response)
-        return HttpResponse('payment initiated')   
-   return render(request, 'pay.html',  {'product': product})
-@csrf_exempt
-def callback(request):
-    if request.method=='POST':
-        data=request.body
-        print("callback data", data)
-        return JsonResponse({'status':'success'})
-    return JsonResponse({'status':'failure'})
+
+        Amount = int(
+    Decimal(str(product.price)).quantize(
+        Decimal("1"),
+        rounding=ROUND_HALF_UP
+    )
+)
+
+        account_reference = "Web Tech Store"
+        transaction_desc = f"Payment for {product.name}"
+
+        callback_url = "https://crud-project-hfz.onrender.com/callback/"
+
+        cl = MpesaClient()
+
+        response = cl.stk_push(
+            Phone_number,
+            Amount,
+            account_reference,
+            transaction_desc,
+            callback_url
+        )
+
+        Payment.objects.create(
+            Phone_Number=Phone_number,
+            Amount=Amount,
+            Status="Pending",
+            Merchant_id=response
+        )
+
+        return render(
+            request,
+            'payment_success.html',
+            {'product': product, 'response': response}
+        )
+
+    return render(
+        request,
+        'pay.html',
+        {'product': product}
+    )
+@login_required
+def payment_success(request):
+    return render(request, 'payment_success.html')

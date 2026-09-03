@@ -14,5 +14,6 @@ urlpatterns = [
     path('product/<int:product_id>/delete/', views.product_delete, name='product_delete'),
     path('user-dashboard/', views.user_dashboard, name='user_dashboard'),
     path('admin_dashboard/', views.product_list, name='admin_dashboard'),
-    path('pay/', views.make_payement, name='pay')
+    path('pay/<int:product_id>/', views.make_payment, name='pay'),
+    path('payment-success/', views.payment_success, name='payment_success')
 ]
