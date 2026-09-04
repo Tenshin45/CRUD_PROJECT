@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django_daraja.mpesa.core import MpesaClient
 from django.http import HttpResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Payment
+from .models import Payment, ContactMessage
 # Create your views here.
 def is_admin(user):
     return user.is_staff
@@ -169,3 +169,24 @@ def make_payment(request, product_id=None):
 @login_required
 def payment_success(request):
     return render(request, 'payment_success.html')
+def contact(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+        subject = request.POST.get("subject")
+        message = request.POST.get("message")
+
+        ContactMessage.objects.create(
+            name=name,
+            email=email,
+            phone=phone,
+            subject=subject,
+            message=message
+        )
+
+        return render(request, "contact.html", {
+            "success": "Your message has been sent successfully!"
+        })
+
+    return render(request, "contact.html")

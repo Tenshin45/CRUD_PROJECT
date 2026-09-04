@@ -1,6 +1,26 @@
 from django.contrib import admin
-from .models import Product,Payment
-# Register your models here.
-#admin.site.site_header = "Web Tech Store Admin"
+from .models import Product, Payment, ContactMessage
+
+
 admin.site.register(Product)
 admin.site.register(Payment)
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'email',
+        'phone',
+        'subject',
+        'created_at',
+    )
+
+    search_fields = (
+        'name',
+        'email',
+        'phone',
+        'subject',
+    )
+
+    ordering = ('-created_at',)

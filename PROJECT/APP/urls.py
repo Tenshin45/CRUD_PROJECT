@@ -15,5 +15,6 @@ urlpatterns = [
     path('user-dashboard/', views.user_dashboard, name='user_dashboard'),
     path('admin_dashboard/', views.product_list, name='admin_dashboard'),
     path('pay/<int:product_id>/', views.make_payment, name='pay'),
-    path('payment-success/', views.payment_success, name='payment_success')
+    path('payment-success/', views.payment_success, name='payment_success'),
+    path('contact/', views.contact, name='contact'),
 ]
